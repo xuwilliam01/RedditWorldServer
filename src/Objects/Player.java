@@ -14,6 +14,7 @@ public class Player extends Object implements Runnable {
 	Socket socket;
 	BufferedReader input;
 	PrintWriter output;
+	StringBuilder message;
 	
 	
 	/**
@@ -88,10 +89,16 @@ public class Player extends Object implements Runnable {
 		public void run() {
 			while (true)
 			{
-				
-				
-				
 				try {
+					
+					for (Player player: Server.players)
+					{
+							queueMessage("P ");
+							queueMessage(player.getID() + " ");
+							queueMessage(player.getX() + " ");
+							queueMessage(player.getY() + " ");
+							queueMessage(player.getImage());
+					}
 					
 					Thread.sleep((int)(1000.0/Engine.TICK_RATE));
 					
@@ -103,6 +110,17 @@ public class Player extends Object implements Runnable {
 	}
 	
 	public void sendMessage(String message)
+	{
+		output.println(message);
+		output.flush();
+	}
+	
+	public void queueMessage(String text)
+	{
+		this.message.append(text);
+	}
+	
+	public void flushWriter()
 	{
 		output.println(message);
 		output.flush();

@@ -35,5 +35,7 @@ public class Engine implements Runnable{
 	{
 		objectIDs[id]=false;
 	}
+	
+	
 
 }

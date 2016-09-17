@@ -12,7 +12,7 @@ public class Server implements Runnable{
 
 	public final static int port = 4200;
 	ServerSocket server;
-	static ArrayList<Player> players = new ArrayList<Player>();
+	public static ArrayList<Player> players = new ArrayList<Player>();
 	
 	public Server ()
 	{
@@ -34,7 +34,7 @@ public class Server implements Runnable{
 			try {
 				Socket client = server.accept();
 				
-				Player player = new Player(client,Integer.MIN_VALUE,Integer.MIN_VALUE,Object.DEFAULT_IMAGE);
+				Player player = new Player(client,Integer.MIN_VALUE,Integer.MIN_VALUE,Object.PLAYER_IMAGE);
 				players.add(player);
 				
 				

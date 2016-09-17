@@ -4,7 +4,8 @@ import Server.Engine;
 
 public class Object {
 
-	public final static String DEFAULT_IMAGE = "0";
+	public final static String PLAYER_IMAGE = "0";
+	public final static String SIGNPOST_IMAGE = "s";
 	
 	int x;
 	int y;
@@ -50,11 +51,11 @@ public class Object {
 		this.y = y;
 	}
 
-	public int getId() {
+	public int getID() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 
