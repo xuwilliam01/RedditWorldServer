@@ -2,7 +2,7 @@ package Server;
 
 import java.util.ArrayList;
 
-import Objects.Signpost;
+import Objects.Post;
 
 public class Subreddit {
 
@@ -16,19 +16,19 @@ public class Subreddit {
 	
 	String name;
 
-	Signpost[][] signGrid;
+	Post[][] signGrid;
 	boolean[][] usedTiles;
 
-	ArrayList<Signpost> signs = new ArrayList<Signpost>();
+	ArrayList<Post> signs = new ArrayList<Post>();
 
 	public Subreddit(String name) {
-		signGrid = new Signpost[SIDE_LENGTH][SIDE_LENGTH];
+		signGrid = new Post[SIDE_LENGTH][SIDE_LENGTH];
 		usedTiles = new boolean[SIDE_LENGTH][SIDE_LENGTH];
 		this.name = name;
 	}
 
 	public void placeSigns() {
-		for (Signpost sign : signs) {
+		for (Post sign : signs) {
 			int row;
 			int column;
 
