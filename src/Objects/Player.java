@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import Server.Engine;
 import Server.Server;
+import Server.Subreddit;
 
 public class Player extends Object implements Runnable {
 
@@ -19,6 +20,11 @@ public class Player extends Object implements Runnable {
 	String name = "Player";
 
 	ArrayList<Player> playersToAppend;
+	
+	boolean [][] signsSent;
+	
+	
+	
 
 	/**
 	 * Constructor
@@ -34,6 +40,8 @@ public class Player extends Object implements Runnable {
 		this.socket = socket;
 		message = new StringBuilder();
 		playersToAppend = new ArrayList<Player>();
+		
+		signsSent = new boolean [Subreddit.SIDE_LENGTH][Subreddit.SIDE_LENGTH];
 
 		// Set up I/O
 		input = reader;
@@ -121,6 +129,11 @@ public class Player extends Object implements Runnable {
 				}
 			}
 		}
+	}
+	
+	public void sendNewSigns()
+	{
+		
 	}
 
 	public void sendMessage(String message) {

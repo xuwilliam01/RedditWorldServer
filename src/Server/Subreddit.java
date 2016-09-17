@@ -13,16 +13,18 @@ public class Subreddit {
 	 * The radius around the sign (in tiles) where other signs cannot spawn
 	 */
 	public final static int SIGN_SPACE_RADIUS = 5;
+	
+	String name;
 
 	Signpost[][] signGrid;
 	boolean[][] usedTiles;
 
 	ArrayList<Signpost> signs = new ArrayList<Signpost>();
 
-	public Subreddit() {
+	public Subreddit(String name) {
 		signGrid = new Signpost[SIDE_LENGTH][SIDE_LENGTH];
 		usedTiles = new boolean[SIDE_LENGTH][SIDE_LENGTH];
-
+		this.name = name;
 	}
 
 	public void placeSigns() {

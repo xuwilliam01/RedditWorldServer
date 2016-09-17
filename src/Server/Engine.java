@@ -1,7 +1,10 @@
 package Server;
 
+import java.util.ArrayList;
+
 public class Engine implements Runnable{
 
+	ArrayList<Subreddit> subreddits;
 	Subreddit world;
 	
 	static boolean [] objectIDs = new boolean[100000];
@@ -9,7 +12,9 @@ public class Engine implements Runnable{
 	
 	public Engine()
 	{
-		world = new Subreddit();
+		subreddits = new ArrayList<Subreddit>();
+		Subreddit frontPage = new Subreddit("FrontPage");
+		subreddits.add(frontPage);
 	}
 	
 	@Override
