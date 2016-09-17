@@ -9,7 +9,7 @@ import org.json.JSONObject;
 /**
  * Created by angelachang on 9/17/16.
  */
-public class PostsHolder {
+public class PostsList {
     /**
      * We will be fetching JSON data from the API.
      */
@@ -22,7 +22,7 @@ public class PostsHolder {
     String url;
     String after;
 
-    PostsHolder(String sr){
+    PostsList(String sr){
         subreddit=sr;
         after="";
         generateURL();
@@ -45,7 +45,7 @@ public class PostsHolder {
      */
     List<Post> fetchPosts(){
         String raw=RemoteData.readContents(url);
-        List<Post> list=new ArrayList<Post>();
+        List<Post> list = new ArrayList<Post>();
         try{
             JSONObject data=new JSONObject(raw)
                     .getJSONObject("data");
@@ -58,18 +58,23 @@ public class PostsHolder {
             for(int i=0;i<children.length();i++){
                 JSONObject cur=children.getJSONObject(i)
                         .getJSONObject("data");
-                Post p=new Post();
-                p.title=cur.optString("title");
-                p.url=cur.optString("url");
-                p.numComments=cur.optInt("num_comments");
-                p.points=cur.optInt("score");
-                p.author=cur.optString("author");
-                p.subreddit=cur.optString("subreddit");
-                p.permalink=cur.optString("permalink");
-                p.domain=cur.optString("domain");
-                p.id=cur.optString("id");
-                if(p.title!=null)
-                    list.add(p);
+
+                Post post = new Post(cur.optString("title"),cur.optString("url"),cur.optInt("score"));
+
+                // some other properties
+
+                /* post.title=cur.optString("title");
+                post.url=cur.optString("url");
+                post.numComments=cur.optInt("num_comments");
+                post.points=cur.optInt("score");
+                post.author=cur.optString("author");
+                post.subreddit=cur.optString("subreddit");
+                post.permalink=cur.optString("permalink");
+                post.domain=cur.optString("domain");
+                post.id=cur.optString("id"); */
+
+                if(post.getTitle()!=null)
+                    list.add(post);
             }
         }catch(Exception e){
 
