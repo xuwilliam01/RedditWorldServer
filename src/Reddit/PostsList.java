@@ -13,6 +13,7 @@ public class PostsList{
     /**
      * We will be fetching JSON data from the API.
      */
+
     private final String URL_TEMPLATE=
             "https://www.reddit.com/r/SUBREDDIT_NAME/"
                     +".json"
