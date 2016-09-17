@@ -13,21 +13,21 @@ public class Post extends Object{
 	String domain;
 	String id;
 
-	String getDetails(){
+    public String getDetails(){
 		String details=author +" posted this and got " +numComments +" replies";
 		return details;
 	}
 
-	String getTitle(){
+	public String getTitle(){
 		return title;
 	}
 
-	String getScore(){
+	public String getScore(){
 		return Integer.toString(points);
 	}
 
-	public Post(int x, int y, String title, String url) {
-		super(x, y, Object.SIGNPOST_IMAGE);
+	public Post(String title, String url, int score) {
+		super(0, 0, Object.SIGNPOST_IMAGE);
 		
 	}
 	
