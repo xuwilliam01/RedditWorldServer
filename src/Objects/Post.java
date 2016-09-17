@@ -2,12 +2,12 @@ package Objects;
 
 public class Post extends Object{
 
-	String title;
-	String url;
+	String m_title;
+	String m_url;
+    int m_score;
 
 	String subreddit;
 	String author;
-	int points;
 	int numComments;
 	String permalink;
 	String domain;
@@ -19,16 +19,18 @@ public class Post extends Object{
 	}
 
 	public String getTitle(){
-		return title;
+		return m_title;
 	}
 
 	public String getScore(){
-		return Integer.toString(points);
+		return Integer.toString(m_score);
 	}
 
 	public Post(String title, String url, int score) {
-		super(0, 0, Object.SIGNPOST_IMAGE);
-		
+        super(0, 0, Object.SIGNPOST_IMAGE);
+        m_title = title;
+        m_url = url;
+        m_score = score;
 	}
 	
 	
