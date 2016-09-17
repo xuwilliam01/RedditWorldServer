@@ -30,6 +30,14 @@ public class Post extends Object{
 		super(0, 0, Object.SIGNPOST_IMAGE);
 		
 	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	
 	
 }

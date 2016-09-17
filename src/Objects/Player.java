@@ -72,6 +72,7 @@ public class Player extends Object implements Runnable {
 					setX(Integer.parseInt(tokens[1]));
 					setY(Integer.parseInt(tokens[2]));
 					Server.addToAll(this);
+					sendNewSigns();
 				}
 				else if (tokens[0].equals("N"))
 				{
@@ -171,7 +172,13 @@ public class Player extends Object implements Runnable {
 				{
 					signsSent[row][column]=true;
 					Post post = subreddit.getSignGrid()[row][column];
-					
+					queueMessage("S ");
+					queueMessage(post.getID() + " ");
+					queueMessage(post.getX() + " ");
+					queueMessage(post.getY() + " ");
+					queueMessage(post.getUrl() + " ");
+					queueMessage(post.getTitle() + " ");
+					queueMessage(post.getScore() + " ");
 				}
 				
 			}

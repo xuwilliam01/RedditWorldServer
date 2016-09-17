@@ -71,6 +71,8 @@ public class Subreddit {
 			
 			usedTiles[row][column] = true;
 			signGrid[row][column] = sign;
+			sign.setX(column*TILE_SIZE);
+			sign.setY(row*TILE_SIZE);
 
 			for (int r = row - SIGN_SPACE_RADIUS; r <= row + SIGN_SPACE_RADIUS; r++) {
 				for (int c = column - SIGN_SPACE_RADIUS; c <= column + SIGN_SPACE_RADIUS; c++) {
