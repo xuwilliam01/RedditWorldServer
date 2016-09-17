@@ -16,6 +16,8 @@ public class Player extends Object implements Runnable {
 	PrintWriter output;
 	StringBuilder message;
 	
+	String name = "Player";
+	
 	
 	/**
 	 * Constructor
@@ -100,6 +102,7 @@ public class Player extends Object implements Runnable {
 							queueMessage(player.getImage());
 					}
 					
+					flushWriter();
 					Thread.sleep((int)(1000.0/Engine.TICK_RATE));
 					
 				} catch (InterruptedException e) {

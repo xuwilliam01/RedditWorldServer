@@ -37,6 +37,7 @@ public class Server implements Runnable{
 				Player player = new Player(client,Integer.MIN_VALUE,Integer.MIN_VALUE,Object.PLAYER_IMAGE);
 				players.add(player);
 				
+				System.out.println("Player has connected");
 				
 				
 			} catch (IOException e) {
