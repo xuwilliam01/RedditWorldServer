@@ -4,16 +4,20 @@ import java.util.ArrayList;
 
 public class Engine implements Runnable{
 
-	ArrayList<Subreddit> subreddits;
+	public static ArrayList<Subreddit> subreddits;
+	public static Subreddit frontPage;
+	
 	Subreddit world;
 	
 	static boolean [] objectIDs = new boolean[100000];
 	public final static int TICK_RATE = 60;
 	
+	
+	
 	public Engine()
 	{
 		subreddits = new ArrayList<Subreddit>();
-		Subreddit frontPage = new Subreddit("FrontPage");
+		frontPage = new Subreddit("frontpage");
 		subreddits.add(frontPage);
 	}
 	
