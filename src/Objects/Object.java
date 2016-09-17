@@ -10,6 +10,7 @@ public class Object {
 	int y;
 	int id;
 	String image;
+	boolean exists;
 
 	/**
 	 * Constructor
@@ -24,14 +25,14 @@ public class Object {
 		this.y = y;
 		this.id = Engine.useNextID();
 		this.image = image;
-
+		this.exists = true;
 	}
 
 	public void destroy()
 	{
-		
+		Engine.removeID(id);
+		this.exists = false;
 	}
-	
 	
 	public int getX() {
 		return x;
@@ -65,4 +66,13 @@ public class Object {
 		this.image = image;
 	}
 
+	public boolean isExists() {
+		return exists;
+	}
+
+	public void setExists(boolean exists) {
+		this.exists = exists;
+	}
+
+	
 }

@@ -5,6 +5,7 @@ public class Engine implements Runnable{
 	World world;
 	
 	static boolean [] objectIDs = new boolean[100000];
+	public final static int TICK_RATE = 60;
 	
 	public Engine()
 	{

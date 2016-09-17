@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import Objects.Player;
 import Objects.Object;
@@ -13,7 +12,7 @@ public class Server implements Runnable{
 
 	public final static int port = 4200;
 	ServerSocket server;
-	ArrayList<Player> players = new ArrayList<Player>();
+	static ArrayList<Player> players = new ArrayList<Player>();
 	
 	public Server ()
 	{
@@ -47,8 +46,12 @@ public class Server implements Runnable{
 			
 			
 		}
-		
-		
 	}
+	
+	public static void removePlayer (Player player)
+	{
+		players.remove(player);
+	}
+	
 
 }
