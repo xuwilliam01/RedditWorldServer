@@ -26,8 +26,8 @@ public class Post extends Object{
 		return Integer.toString(points);
 	}
 
-	public Post(int x, int y, String title, String url) {
-		super(x, y, Object.SIGNPOST_IMAGE);
+	public Post(String title, String url) {
+		super(0, 0, Object.SIGNPOST_IMAGE);
 		
 	}
 	
