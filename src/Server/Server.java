@@ -1,6 +1,9 @@
 package Server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -34,7 +37,10 @@ public class Server implements Runnable{
 			try {
 				Socket client = server.accept();
 				
-				Player player = new Player(client,Integer.MIN_VALUE,Integer.MIN_VALUE,Object.PLAYER_IMAGE);
+				BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+				PrintWriter writer = new PrintWriter(client.getOutputStream());
+				
+				Player player = new Player(client,reader,writer,0,0,Object.PLAYER_IMAGE);
 				players.add(player);
 				
 				System.out.println("Player has connected");
@@ -54,5 +60,12 @@ public class Server implements Runnable{
 		players.remove(player);
 	}
 	
+	public static void addToAll (Player player)
+	{
+		for (Player no:players)
+		{
+			no.addPlayerToList(player);
+		}
+	}
 
 }

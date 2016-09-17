@@ -74,13 +74,12 @@ public class Client implements Runnable{
 		@Override
 		public void run() {
 			Scanner scan = new Scanner(System.in);
-			while (true)
-			{
+
 				String command = scan.nextLine();
 				output.println(command);
 				output.flush();
-				
-			}
+				System.out.println(command);
+			
 		}
 		
 	}
