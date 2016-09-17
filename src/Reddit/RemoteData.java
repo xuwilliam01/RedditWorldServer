@@ -38,7 +38,7 @@ public class RemoteData {
      * @param url
      * @return
      */
-    
+
     public static String readContents(String url){
         HttpURLConnection hcon=getConnection(url);
         if(hcon==null) return null;
