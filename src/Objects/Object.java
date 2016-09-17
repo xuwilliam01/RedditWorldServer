@@ -16,9 +16,8 @@ public class Object {
 	/**
 	 * Constructor
 	 * 
-	 * @param x
+	 * @param x the x position
 	 * @param y
-	 * @param id
 	 * @param image
 	 */
 	public Object(int x, int y, String image) {
