@@ -21,9 +21,12 @@ public class Player extends Object implements Runnable {
 
 	ArrayList<Player> playersToAppend;
 	
+	Subreddit subreddit;
+	
 	boolean [][] signsSent;
 	
-	
+	int screenWidth = 2560;
+	int screenHeight = 1440;
 	
 
 	/**
@@ -35,12 +38,14 @@ public class Player extends Object implements Runnable {
 	 * @param id
 	 * @param image
 	 */
-	public Player(Socket socket, BufferedReader reader, PrintWriter writer, int x, int y, String image) {
+	public Player(Socket socket, BufferedReader reader, PrintWriter writer, int x, int y, String image, Subreddit subreddit) {
 		super(x, y, image);
 		this.socket = socket;
 		message = new StringBuilder();
 		playersToAppend = new ArrayList<Player>();
 		
+		
+		this.subreddit = subreddit;
 		signsSent = new boolean [Subreddit.SIDE_LENGTH][Subreddit.SIDE_LENGTH];
 
 		// Set up I/O
@@ -133,6 +138,29 @@ public class Player extends Object implements Runnable {
 	
 	public void sendNewSigns()
 	{
+		int startRow = (int)(getY()-screenHeight/2.0 - 64);
+		if (startRow < 0)
+		{
+			startRow = 0;
+		}
+		
+		int endRow = (int)(getY()+screenHeight/2.0 + 64);
+		if (endRow >= Subreddit.SIDE_LENGTH)
+		{
+			endRow = Subreddit.SIDE_LENGTH-1;
+		}
+		
+		int startColumn = (int)(getX() - screenWidth/2.0 - 64);
+		if (startColumn < 0)
+		{
+			startColumn = 0;
+		}
+		
+		int endColumn = (int)(getX() + screenWidth/2.0 + 64);
+		if (endColumn >= Subreddit.SIDE_LENGTH)
+		{
+			endColumn = Subreddit.SIDE_LENGTH-1;
+		}
 		
 	}
 

@@ -41,7 +41,7 @@ public class Server implements Runnable{
 				PrintWriter writer = new PrintWriter(client.getOutputStream());
 				
 				
-				Player player = new Player(client,reader,writer,0,0,Object.PLAYER_IMAGE);
+				Player player = new Player(client,reader,writer,0,0,Object.PLAYER_IMAGE, Engine.frontPage);
 				Thread thread = new Thread(player);
 				thread.start();
 				
