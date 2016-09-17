@@ -36,13 +36,6 @@ public class Post extends Object{
         m_score = score;
 	}
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 	
 	
 }
