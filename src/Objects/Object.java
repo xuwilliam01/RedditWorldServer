@@ -1,28 +1,38 @@
 package Objects;
 
+import Server.Engine;
+
 public class Object {
 
+	public final static String DEFAULT_IMAGE = "0";
+	
 	int x;
 	int y;
 	int id;
 	String image;
-	
-	/** Constructor
+
+	/**
+	 * Constructor
 	 * 
 	 * @param x
 	 * @param y
 	 * @param id
 	 * @param image
 	 */
-	public Object(int x, int y, int id, String image)
-	{
-		this.x=x;
-		this.y=y;
-		this.id=id;
-		this.image=image;
-		
+	public Object(int x, int y, String image) {
+		this.x = x;
+		this.y = y;
+		this.id = Engine.useNextID();
+		this.image = image;
+
 	}
 
+	public void destroy()
+	{
+		
+	}
+	
+	
 	public int getX() {
 		return x;
 	}
@@ -54,6 +64,5 @@ public class Object {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
-	
+
 }
