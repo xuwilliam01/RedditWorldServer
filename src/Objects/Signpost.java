@@ -10,6 +10,4 @@ public class Signpost extends Object{
 		
 	}
 	
-	
-
 }
