@@ -75,6 +75,9 @@ public class Player extends Object implements Runnable {
 				} else if (tokens[0].equals("N")) {
 					setName(tokens[1]);
 					Server.addToAll(this);
+				} else if (tokens[0].equals("S")) {
+					subreddit = new Subreddit(tokens[1]);
+					// Continue
 				}
 
 			} catch (IOException e) {
@@ -134,56 +137,47 @@ public class Player extends Object implements Runnable {
 		}
 	}
 
-	public void sendNewSigns()
-	{
-		ArrayList<Post>toRemove = new ArrayList<Post>();
-		for (Post post:postsSent)
-		{
-			if (post.getX()>getX()+screenWidth/2.0 || post.getX() + Subreddit.TILE_SIZE<getX()-screenWidth/2.0 
-					|| post.getY()>getY()+screenHeight/2 || post.getY() + Subreddit.TILE_SIZE < getY()-screenHeight)
-			{
+	public void sendNewSigns() {
+		ArrayList<Post> toRemove = new ArrayList<Post>();
+		for (Post post : postsSent) {
+			if (post.getX() > getX() + screenWidth / 2.0
+					|| post.getX() + Subreddit.TILE_SIZE < getX() - screenWidth / 2.0
+					|| post.getY() > getY() + screenHeight / 2
+					|| post.getY() + Subreddit.TILE_SIZE < getY() - screenHeight) {
 				toRemove.add(post);
 			}
 		}
-		
-		for (Post post: toRemove)
-		{
+
+		for (Post post : toRemove) {
 			postsSent.remove(post);
 		}
-		
-		int startRow = (int)(getY()-screenHeight/2.0 - 64);
-		if (startRow < 0)
-		{
+
+		int startRow = (int) (getY() - screenHeight / 2.0 - 64);
+		if (startRow < 0) {
 			startRow = 0;
 		}
-		
-		int endRow = (int)(getY()+screenHeight/2.0 + 64);
-		if (endRow >= Subreddit.SIDE_LENGTH)
-		{
-			endRow = Subreddit.SIDE_LENGTH-1;
+
+		int endRow = (int) (getY() + screenHeight / 2.0 + 64);
+		if (endRow >= Subreddit.SIDE_LENGTH) {
+			endRow = Subreddit.SIDE_LENGTH - 1;
 		}
-		
-		int startColumn = (int)(getX() - screenWidth/2.0 - 64);
-		if (startColumn < 0)
-		{
+
+		int startColumn = (int) (getX() - screenWidth / 2.0 - 64);
+		if (startColumn < 0) {
 			startColumn = 0;
 		}
-		
-		int endColumn = (int)(getX() + screenWidth/2.0 + 64);
-		if (endColumn >= Subreddit.SIDE_LENGTH)
-		{
-			endColumn = Subreddit.SIDE_LENGTH-1;
+
+		int endColumn = (int) (getX() + screenWidth / 2.0 + 64);
+		if (endColumn >= Subreddit.SIDE_LENGTH) {
+			endColumn = Subreddit.SIDE_LENGTH - 1;
 		}
-		
-		for (int row = startRow; row <= endRow; row++)
-		{
-			for (int column = startColumn; column<= endColumn; column++)
-			{
+
+		for (int row = startRow; row <= endRow; row++) {
+			for (int column = startColumn; column <= endColumn; column++) {
 				Post post;
-				if ((post = subreddit.getSignGrid()[row][column])!=null && !postsSent.contains(post))
-				{
+				if ((post = subreddit.getSignGrid()[row][column]) != null && !postsSent.contains(post)) {
 					postsSent.add(post);
-					
+
 					queueMessage("S ");
 					queueMessage(post.getID() + " ");
 					queueMessage(post.getX() + " ");
@@ -192,11 +186,10 @@ public class Player extends Object implements Runnable {
 					queueMessage(post.getTitle() + " ");
 					queueMessage(post.getScore() + " ");
 				}
-				
+
 			}
 		}
-		
-		
+
 	}
 
 	public void sendMessage(String message) {

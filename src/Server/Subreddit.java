@@ -3,8 +3,9 @@ package Server;
 import java.util.ArrayList;
 
 import Objects.Post;
+import Reddit.PostsList;
 
-public class Subreddit {
+public class Subreddit implements Runnable{
 
 	public final static int SIDE_LENGTH = 1000;
 	public final static int TILE_SIZE = 64;
@@ -46,9 +47,9 @@ public class Subreddit {
 	}
 
 	public Subreddit(String name) {
-		signGrid = new Post[SIDE_LENGTH][SIDE_LENGTH];
-		usedTiles = new boolean[SIDE_LENGTH][SIDE_LENGTH];
 		this.name = name;
+		Thread thread = new Thread(this);
+		thread.start();
 	}
 
 	public void placeSigns() {
@@ -87,6 +88,15 @@ public class Subreddit {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void run() {
+		signGrid = new Post[SIDE_LENGTH][SIDE_LENGTH];
+		usedTiles = new boolean[SIDE_LENGTH][SIDE_LENGTH];
+		
+		PostsList postList = new PostsList(name);
+		posts = postList.fetch();
 	}
 
 }

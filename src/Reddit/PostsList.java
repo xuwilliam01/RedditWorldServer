@@ -25,7 +25,7 @@ public class PostsList{
     String url;
     String after;
 
-    PostsList(String sr){
+    public PostsList(String sr){
         subreddit=sr;
         after="";
     }
