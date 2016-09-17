@@ -21,6 +21,9 @@ public class Post extends Object{
 	public String getTitle(){
 		return m_title;
 	}
+    public String getUrl(){
+        return m_url;
+    }
 
 	public String getScore(){
 		return Integer.toString(m_score);
