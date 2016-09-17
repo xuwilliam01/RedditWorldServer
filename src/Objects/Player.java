@@ -162,6 +162,20 @@ public class Player extends Object implements Runnable {
 			endColumn = Subreddit.SIDE_LENGTH-1;
 		}
 		
+		for (int row = startRow; row <= endRow; row++)
+		{
+			for (int column = startColumn; column<= endColumn; column++)
+			{
+				
+				if (subreddit.getSignGrid()[row][column]!=null && !signsSent[row][column])
+				{
+					signsSent[row][column]=true;
+					Post post = subreddit.getSignGrid()[row][column];
+					
+				}
+				
+			}
+		}
 	}
 
 	public void sendMessage(String message) {
@@ -232,6 +246,17 @@ public class Player extends Object implements Runnable {
 	public void setPlayersToAppend(ArrayList<Player> playersToAppend) {
 		this.playersToAppend = playersToAppend;
 	}
+
+	public Subreddit getSubreddit() {
+		return subreddit;
+	}
+
+	public void setSubreddit(Subreddit subreddit) {
+		this.subreddit = subreddit;
+		
+	}
+	
+	
 	
 	
 }

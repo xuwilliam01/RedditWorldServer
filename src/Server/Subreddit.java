@@ -19,7 +19,31 @@ public class Subreddit {
 	Post[][] signGrid;
 	boolean[][] usedTiles;
 
-	ArrayList<Post> signs = new ArrayList<Post>();
+	ArrayList<Post> posts = new ArrayList<Post>();
+
+	public Post[][] getSignGrid() {
+		return signGrid;
+	}
+
+	public void setSignGrid(Post[][] signGrid) {
+		this.signGrid = signGrid;
+	}
+
+	public boolean[][] getUsedTiles() {
+		return usedTiles;
+	}
+
+	public void setUsedTiles(boolean[][] usedTiles) {
+		this.usedTiles = usedTiles;
+	}
+
+	public ArrayList<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(ArrayList<Post> posts) {
+		this.posts = posts;
+	}
 
 	public Subreddit(String name) {
 		signGrid = new Post[SIDE_LENGTH][SIDE_LENGTH];
@@ -28,7 +52,7 @@ public class Subreddit {
 	}
 
 	public void placeSigns() {
-		for (Post sign : signs) {
+		for (Post sign : posts) {
 			int row;
 			int column;
 
