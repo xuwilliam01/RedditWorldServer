@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class Client implements Runnable{
+public class Client implements Runnable {
 
 	public static final String IP = "127.0.0.1";
 	public static final int PORT = 4200;
@@ -30,59 +30,58 @@ public class Client implements Runnable{
 
 	public Client(String name, String IP, int port) {
 		try {
-			
-			socket = new Socket(IP,port);
-			
+
+			socket = new Socket(IP, port);
+
 			System.out.println("Connected to server");
-			
+
 			this.name = name;
 			input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			output = new PrintWriter(socket.getOutputStream());
-			
+
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		run();
-		
+
 		Thread thread = new Thread(new Writer());
 		thread.start();
+
+		run();
+
 	}
 
 	@Override
 	public void run() {
-		while(true)
-		{
+		while (true) {
 			try {
 				String message = input.readLine();
-				
+
 				System.out.println(message);
-				
+
 			} catch (IOException e) {
-				
+
 				break;
 			}
-			
+
 		}
 	}
-	
-	class Writer implements Runnable
-	{
+
+	class Writer implements Runnable {
 
 		@Override
 		public void run() {
-			Scanner scan = new Scanner(System.in);
+			while (true) {
+				Scanner scan = new Scanner(System.in);
 
 				String command = scan.nextLine();
 				output.println(command);
 				output.flush();
-				System.out.println(command);
-			
+			}
+
 		}
-		
+
 	}
-	
-	
+
 }
