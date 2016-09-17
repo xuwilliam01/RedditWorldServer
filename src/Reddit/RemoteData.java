@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
+import java.util.ArrayList;
+
+import Objects.Post;
 
 /**
  * Created by angelachang on 9/17/16.
@@ -14,7 +16,7 @@ import java.util.Scanner;
 
 public class RemoteData {
     public static HttpURLConnection getConnection(String url){
-        System.out.println("URL: "+url);
+        // System.out.println("URL: "+url);
         HttpURLConnection hcon = null;
         try {
             hcon=(HttpURLConnection)new URL(url).openConnection();
@@ -36,6 +38,7 @@ public class RemoteData {
      * @param url
      * @return
      */
+
     public static String readContents(String url){
         HttpURLConnection hcon=getConnection(url);
         if(hcon==null) return null;
@@ -57,6 +60,12 @@ public class RemoteData {
     }
 
     public static void main(String[] args) {
-        System.out.print(readContents("https://www.reddit.com/.json"));
+
+        PostsList postsList = new PostsList("uwaterloo");
+        ArrayList<Post> list = postsList.fetch();
+        for (Post post : list) {
+            System.out.println(post.getUrl());
+        }
+
     }
 }
