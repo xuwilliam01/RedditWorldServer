@@ -9,14 +9,16 @@ import org.json.JSONObject;
 /**
  * Created by angelachang on 9/17/16.
  */
-public class PostsList {
+public class PostsList{
     /**
      * We will be fetching JSON data from the API.
      */
     private final String URL_TEMPLATE=
-            "http://www.reddit.com/r/SUBREDDIT_NAME/"
+            "https://www.reddit.com/r/SUBREDDIT_NAME/"
                     +".json"
                     +"?after=AFTER";
+    private final int NUM_POSTS = 250;
+    private final int POSTS_PER_PAGE = 25;
 
     String subreddit;
     String url;
@@ -25,13 +27,8 @@ public class PostsList {
     PostsList(String sr){
         subreddit=sr;
         after="";
-        generateURL();
     }
 
-    /**
-     * Generates the actual URL from the template based on the
-     * subreddit name and the 'after' property.
-     */
     private void generateURL(){
         url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
         url=url.replace("AFTER", after);
@@ -43,52 +40,35 @@ public class PostsList {
      *
      * @return
      */
-    List<Post> fetchPosts(){
-        String raw=RemoteData.readContents(url);
-        List<Post> list = new ArrayList<Post>();
-        try{
-            JSONObject data=new JSONObject(raw)
-                    .getJSONObject("data");
-            JSONArray children=data.getJSONArray("children");
 
-            //Using this property we can fetch the next set of
-            //posts from the same subreddit
-            after=data.getString("after");
+    public ArrayList<Post> fetch(){
+        ArrayList<Post> list = new ArrayList<Post>();
 
-            for(int i=0;i<children.length();i++){
-                JSONObject cur=children.getJSONObject(i)
+        for(int n = 0; n<=NUM_POSTS/POSTS_PER_PAGE;++n) {
+            generateURL();
+            String raw = RemoteData.readContents(url);
+
+            try {
+                JSONObject data = new JSONObject(raw)
                         .getJSONObject("data");
+                JSONArray children = data.getJSONArray("children");
 
-                Post post = new Post(cur.optString("title"),cur.optString("url"),cur.optInt("score"));
+                //Using this property we can fetch the next set of
+                //posts from the same subreddit
 
-                // some other properties
+                for (int i = 0; i < children.length(); i++) {
+                    JSONObject current = children.getJSONObject(i)
+                            .getJSONObject("data");
+                    Post post = new Post(current.optString("title"), current.optString("url"), current.optInt("score"));
 
-                /* post.title=cur.optString("title");
-                post.url=cur.optString("url");
-                post.numComments=cur.optInt("num_comments");
-                post.points=cur.optInt("score");
-                post.author=cur.optString("author");
-                post.subreddit=cur.optString("subreddit");
-                post.permalink=cur.optString("permalink");
-                post.domain=cur.optString("domain");
-                post.id=cur.optString("id"); */
-
-                if(post.getTitle()!=null)
-                    list.add(post);
+                    if (post.getTitle() != null)
+                        list.add(post);
+                }
+            } catch (Exception e) {
+                System.out.printf("Subreddit does not exist.");
             }
-        }catch(Exception e){
-
         }
         return list;
     }
 
-    /**
-     * This is to fetch the next set of posts
-     * using the 'after' property
-     * @return
-     */
-    List<Post> fetchMorePosts(){
-        generateURL();
-        return fetchPosts();
-    }
 }
