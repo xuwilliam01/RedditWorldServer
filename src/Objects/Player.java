@@ -41,6 +41,8 @@ public class Player extends Object implements Runnable {
 
 		Thread thread = new Thread(new Writer());
 		thread.start();
+
+		Server.addToAll(this);
 	}
 
 	@Override
@@ -58,8 +60,11 @@ public class Player extends Object implements Runnable {
 					setY(Integer.parseInt(tokens[2]));
 					Server.addToAll(this);
 				}
-
-				
+				else if (tokens[0].equals("N"))
+				{
+					setName(tokens[1]);
+					Server.addToAll(this);
+				}
 
 			} catch (IOException e) {
 
@@ -138,4 +143,54 @@ public class Player extends Object implements Runnable {
 	public void addPlayerToList(Player player) {
 		playersToAppend.add(player);
 	}
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	public BufferedReader getInput() {
+		return input;
+	}
+
+	public void setInput(BufferedReader input) {
+		this.input = input;
+	}
+
+	public PrintWriter getOutput() {
+		return output;
+	}
+
+	public void setOutput(PrintWriter output) {
+		this.output = output;
+	}
+
+	public StringBuilder getMessage() {
+		return message;
+	}
+
+	public void setMessage(StringBuilder message) {
+		this.message = message;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ArrayList<Player> getPlayersToAppend() {
+		return playersToAppend;
+	}
+
+	public void setPlayersToAppend(ArrayList<Player> playersToAppend) {
+		this.playersToAppend = playersToAppend;
+	}
+	
+	
 }

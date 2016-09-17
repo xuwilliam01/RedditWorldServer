@@ -2,14 +2,14 @@ package Server;
 
 public class Engine implements Runnable{
 
-	World world;
+	Subreddit world;
 	
 	static boolean [] objectIDs = new boolean[100000];
 	public final static int TICK_RATE = 60;
 	
 	public Engine()
 	{
-		world = new World();
+		world = new Subreddit();
 	}
 	
 	@Override
