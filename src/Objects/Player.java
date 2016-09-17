@@ -20,14 +20,13 @@ public class Player extends Object implements Runnable {
 	String name = "Player";
 
 	ArrayList<Player> playersToAppend;
-	
+
 	Subreddit subreddit;
-	
-	boolean [][] signsSent;
-	
+
+	ArrayList<Post> postsSent;
+
 	int screenWidth = 2560;
 	int screenHeight = 1440;
-	
 
 	/**
 	 * Constructor
@@ -38,15 +37,15 @@ public class Player extends Object implements Runnable {
 	 * @param id
 	 * @param image
 	 */
-	public Player(Socket socket, BufferedReader reader, PrintWriter writer, int x, int y, String image, Subreddit subreddit) {
+	public Player(Socket socket, BufferedReader reader, PrintWriter writer, int x, int y, String image,
+			Subreddit subreddit) {
 		super(x, y, image);
 		this.socket = socket;
 		message = new StringBuilder();
 		playersToAppend = new ArrayList<Player>();
-		
-		
+
 		this.subreddit = subreddit;
-		signsSent = new boolean [Subreddit.SIDE_LENGTH][Subreddit.SIDE_LENGTH];
+		postsSent = new ArrayList<Post>();
 
 		// Set up I/O
 		input = reader;
@@ -73,9 +72,7 @@ public class Player extends Object implements Runnable {
 					setY(Integer.parseInt(tokens[2]));
 					Server.addToAll(this);
 					sendNewSigns();
-				}
-				else if (tokens[0].equals("N"))
-				{
+				} else if (tokens[0].equals("N")) {
 					setName(tokens[1]);
 					Server.addToAll(this);
 				}
@@ -136,9 +133,24 @@ public class Player extends Object implements Runnable {
 			}
 		}
 	}
-	
+
 	public void sendNewSigns()
 	{
+		ArrayList<Post>toRemove = new ArrayList<Post>();
+		for (Post post:postsSent)
+		{
+			if (post.getX()>getX()+screenWidth/2.0 || post.getX() + Subreddit.TILE_SIZE<getX()-screenWidth/2.0 
+					|| post.getY()>getY()+screenHeight/2 || post.getY() + Subreddit.TILE_SIZE < getY()-screenHeight)
+			{
+				toRemove.add(post);
+			}
+		}
+		
+		for (Post post: toRemove)
+		{
+			postsSent.remove(post);
+		}
+		
 		int startRow = (int)(getY()-screenHeight/2.0 - 64);
 		if (startRow < 0)
 		{
@@ -167,11 +179,11 @@ public class Player extends Object implements Runnable {
 		{
 			for (int column = startColumn; column<= endColumn; column++)
 			{
-				
-				if (subreddit.getSignGrid()[row][column]!=null && !signsSent[row][column])
+				Post post;
+				if ((post = subreddit.getSignGrid()[row][column])!=null && !postsSent.contains(post))
 				{
-					signsSent[row][column]=true;
-					Post post = subreddit.getSignGrid()[row][column];
+					postsSent.add(post);
+					
 					queueMessage("S ");
 					queueMessage(post.getID() + " ");
 					queueMessage(post.getX() + " ");
@@ -183,6 +195,8 @@ public class Player extends Object implements Runnable {
 				
 			}
 		}
+		
+		
 	}
 
 	public void sendMessage(String message) {
@@ -260,10 +274,7 @@ public class Player extends Object implements Runnable {
 
 	public void setSubreddit(Subreddit subreddit) {
 		this.subreddit = subreddit;
-		
+
 	}
-	
-	
-	
-	
+
 }
