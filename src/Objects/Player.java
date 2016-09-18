@@ -125,6 +125,7 @@ public class Player extends Object implements Runnable {
 						queueMessage(player.getX() + " ");
 						queueMessage(player.getY() + " ");
 						queueMessage(player.getImage());
+						queueMessage(player.getSubreddit().getName());
 						toRemove.add(player);
 					}
 
