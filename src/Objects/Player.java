@@ -62,8 +62,10 @@ public class Player extends Object implements Runnable {
 
 		Thread thread = new Thread(new Writer());
 		thread.start();
+		
 
 		Server.addToAll(this);
+		sendNewSigns();
 	}
 
 	@Override
@@ -92,6 +94,7 @@ public class Player extends Object implements Runnable {
 						Engine.addSubreddit(subreddit);
 					}
 					postsSent = new ArrayList<Post>();
+					sendNewSigns();
 				} else if (tokens[0].equals("M")) {
 					chatMessage = tokens[1];
 					timeCheck = System.currentTimeMillis();
