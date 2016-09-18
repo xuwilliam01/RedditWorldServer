@@ -100,6 +100,7 @@ public class Player extends Object implements Runnable {
 					setName(tokens[1]);
 					Server.addToAll(this);
 				} else if (tokens[0].equals("S")) {
+					tokens[1] = tokens[1].toLowerCase();
 					if (Engine.subNames.contains(tokens[1])) {
 						subreddit = Engine.getSubreddit(tokens[1]);
 					} else {

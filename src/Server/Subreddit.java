@@ -56,6 +56,9 @@ public class Subreddit implements Runnable {
 
 	public void placeSigns() {
 		for (Post sign : posts) {
+			sign.setX(-10000);
+			sign.setY(-10000);
+			
 			int row;
 			int column;
 			int noOfTries = 0;
@@ -66,8 +69,7 @@ public class Subreddit implements Runnable {
 			} while (usedTiles[row][column] && noOfTries < 10000);
 
 			if (noOfTries >= 10000) {
-				sign.setX(-10000);
-				sign.setY(-10000);
+
 				break;
 			}
 

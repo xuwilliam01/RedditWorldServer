@@ -84,7 +84,7 @@ public class PostsList{
                         list.add(post);
                 }
                 
-                if(data.getString("after").equals("null")){
+                if(end == 1 || data.getString("after").equals("null")){
                 }else{
                 	after = data.getString("after");
                 }
