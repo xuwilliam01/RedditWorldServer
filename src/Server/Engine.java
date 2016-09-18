@@ -77,7 +77,7 @@ public class Engine implements Runnable{
 				for (int no = 0; no < noOfPosts; no++) {
 					String title = fileScan.nextLine();
 					String url = fileScan.nextLine();
-					int score = fileScan.nextInt();
+					int score = Integer.parseInt(fileScan.nextLine());
 					posts.add(new Post(title, url, score));
 				}
 
@@ -94,7 +94,7 @@ public class Engine implements Runnable{
 		}
 		System.out.println("Got here");
 		Scanner in = new Scanner(System.in);
-		if (in.nextLine().equals("1")) {
+		while (in.nextLine().equals("1")) {
 
 			System.out.println("Saving subs");
 
