@@ -18,12 +18,16 @@ public class Player extends Object implements Runnable {
 	PrintWriter output;
 	StringBuilder message;
 	String name = "Player";
+	
+	String chatMessage = "µ";
 
 	ArrayList<Player> playersToAppend;
 
 	Subreddit subreddit;
 
 	ArrayList<Post> postsSent;
+	
+	long timeCheck = 0;
 
 	int screenWidth = 2560;
 	int screenHeight = 1440;
@@ -125,7 +129,9 @@ public class Player extends Object implements Runnable {
 						queueMessage(player.getX() + " ");
 						queueMessage(player.getY() + " ");
 						queueMessage(player.getImage());
+						
 						queueMessage(player.getSubreddit().getName());
+						
 						toRemove.add(player);
 					}
 
@@ -275,5 +281,15 @@ public class Player extends Object implements Runnable {
 		this.subreddit = subreddit;
 
 	}
+
+	public String getChatMessage() {
+		return chatMessage;
+	}
+
+	public void setChatMessage(String chatMessage) {
+		this.chatMessage = chatMessage;
+	}
+	
+	
 
 }

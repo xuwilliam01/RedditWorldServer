@@ -8,8 +8,6 @@ public class Engine{
 	public static ArrayList<String> subNames;
 	public static Subreddit frontPage;
 	
-	Subreddit world;
-	
 	static boolean [] objectIDs = new boolean[100000];
 	public final static int TICK_RATE = 60;
 	
