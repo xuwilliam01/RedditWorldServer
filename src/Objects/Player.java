@@ -13,7 +13,7 @@ import Server.Subreddit;
 
 public class Player extends Object implements Runnable {
 
-	public final static String NO_MESSAGE_CHAR = "µ";
+	public final static String NO_MESSAGE_CHAR = ")";
 
 	Socket socket;
 	BufferedReader input;

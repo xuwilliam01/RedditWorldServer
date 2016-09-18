@@ -18,7 +18,7 @@ public class PostsList{
             "https://www.reddit.com/r/SUBREDDIT_NAME/top/"
                     +".json"
                     +"?after=AFTER";
-    private final int NUM_POSTS = 250;
+    private final int NUM_POSTS = 350;
     private final int POSTS_PER_PAGE = 25;
 
     String subreddit;
