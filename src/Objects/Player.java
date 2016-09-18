@@ -123,6 +123,11 @@ public class Player extends Object implements Runnable {
 				Server.removePlayer(this);
 
 				System.out.println("Player has disconnected");
+				
+				for (Player player: Server.players)
+				{
+					player.sendMessage("D " + getID());
+				}
 
 				try {
 					input.close();
