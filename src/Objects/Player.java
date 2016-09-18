@@ -76,8 +76,13 @@ public class Player extends Object implements Runnable {
 					setName(tokens[1]);
 					Server.addToAll(this);
 				} else if (tokens[0].equals("S")) {
-					subreddit = new Subreddit(tokens[1]);
-					// Continue
+					if (Engine.subNames.contains(tokens[1])) {
+						subreddit = Engine.getSubreddit(tokens[1]);
+					} else {
+						subreddit = new Subreddit(tokens[1]);
+						Engine.addSubreddit(subreddit);
+					}
+					postsSent = new ArrayList<Post>();
 				}
 
 			} catch (IOException e) {

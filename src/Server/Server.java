@@ -71,5 +71,7 @@ public class Server implements Runnable{
 			no.addPlayerToList(player);
 		}
 	}
+	
+	
 
 }

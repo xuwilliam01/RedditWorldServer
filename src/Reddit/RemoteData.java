@@ -58,10 +58,4 @@ public class RemoteData {
             return null;
         }
     }
-
-    public static void main(String[] args) {
-
-        PostsList postsList = new PostsList("uwaterloo");
-
-    }
 }

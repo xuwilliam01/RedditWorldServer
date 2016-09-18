@@ -99,4 +99,13 @@ public class Subreddit implements Runnable{
 		posts = postList.fetch();
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
 }

@@ -15,7 +15,7 @@ public class PostsList{
      */
 
     private final String URL_TEMPLATE=
-            "https://www.reddit.com/r/SUBREDDIT_NAME/"
+            "https://www.reddit.com/r/SUBREDDIT_NAME/top/"
                     +".json"
                     +"?after=AFTER";
     private final int NUM_POSTS = 250;
@@ -31,8 +31,15 @@ public class PostsList{
     }
 
     private void generateURL(){
+    	if (subreddit.equals("frontpage"))
+    	{
+    		url = "https://www.reddit.com/top/";
+    	}
+    	else
+    	{
         url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
         url=url.replace("AFTER", after);
+    	}
     }
 
     /**
