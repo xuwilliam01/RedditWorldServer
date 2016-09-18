@@ -158,7 +158,7 @@ public class Player extends Object implements Runnable {
 						queueMessage(player.getX() + " ");
 						queueMessage(player.getY() + " ");
 						queueMessage(player.getImage() + " ");
-						queueMessage(player.getImageFrame());
+						queueMessage(player.getImageFrame() + " ");
 
 						queueMessage(player.getSubreddit().getName() + " ");
 						queueMessage(player.getChatMessage() + " ");
@@ -176,6 +176,7 @@ public class Player extends Object implements Runnable {
 							&& System.currentTimeMillis() - timeCheck > 3000 + chatMessage.length() * 250) {
 
 						chatMessage = NO_MESSAGE_CHAR;
+						timeCheck = System.currentTimeMillis();
 						Server.addToAll(thisPlayer);
 					}
 
@@ -270,7 +271,7 @@ public class Player extends Object implements Runnable {
 	public void flushWriter() {
 		if (message.length() > 0) {
 			output.println(message);
-			// System.out.println(message);
+			System.out.println(message);
 			output.flush();
 			message = new StringBuilder();
 		}
