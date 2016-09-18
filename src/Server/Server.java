@@ -11,14 +11,13 @@ import java.util.ArrayList;
 import Objects.Player;
 import Objects.Object;
 
-public class Server implements Runnable{
+public class Server implements Runnable {
 
-	public final static int PORT = 4200;
+	public final static int PORT = 420;
 	ServerSocket server;
 	public static ArrayList<Player> players = new ArrayList<Player>();
-	
-	public Server ()
-	{
+
+	public Server() {
 		try {
 			server = new ServerSocket(PORT);
 		} catch (IOException e) {
@@ -31,47 +30,40 @@ public class Server implements Runnable{
 	 * Accept clients
 	 */
 	public void run() {
-		
-		while (true)
-		{
+
+		while (true) {
 			try {
 				Socket client = server.accept();
-				
+
 				BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 				PrintWriter writer = new PrintWriter(client.getOutputStream());
-				
-				
-				Player player = new Player(client,reader,writer,0,0,Object.PLAYER_IMAGE, Engine.frontPage);
+
+				Player player = new Player(client, reader, writer, 0, 0, Object.PLAYER_IMAGE, Engine.frontPage);
 				Thread thread = new Thread(player);
 				thread.start();
-				
+
 				players.add(player);
-				
+
 				System.out.println("Player has connected");
-				
-				
+
 			} catch (IOException e) {
 				System.out.println("IO error");
 				e.printStackTrace();
 			}
-			
-			
+
 		}
 	}
-	
-	public static void removePlayer (Player player)
-	{
+
+	public static void removePlayer(Player player) {
 		players.remove(player);
 	}
-	
-	public static void addToAll (Player player)
-	{
-		for (Player no:players)
-		{
-			no.addPlayerToList(player);
+
+	public static void addToAll(Player player) {
+		for (Player no : players) {
+			if (!no.getPlayersToAppend().contains(player)) {
+				no.addPlayerToList(player);
+			}
 		}
 	}
-	
-	
 
 }

@@ -7,13 +7,13 @@ import Reddit.PostsList;
 
 public class Subreddit implements Runnable{
 
-	public final static int SIDE_LENGTH = 1000;
+	public final static int SIDE_LENGTH = 300;
 	public final static int TILE_SIZE = 64;
 
 	/**
 	 * The radius around the sign (in tiles) where other signs cannot spawn
 	 */
-	public final static int SIGN_SPACE_RADIUS = 3;
+	public final static int SIGN_SPACE_RADIUS = 10;
 	
 	String name;
 

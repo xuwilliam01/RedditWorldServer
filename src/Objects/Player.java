@@ -35,6 +35,7 @@ public class Player extends Object implements Runnable {
 
 	int screenWidth = 2560;
 	int screenHeight = 1440;
+	String imageFrame = "0";
 
 	/**
 	 * Constructor
@@ -87,6 +88,8 @@ public class Player extends Object implements Runnable {
 				if (tokens[0].equals("P")) {
 					setX(Integer.parseInt(tokens[1]));
 					setY(Integer.parseInt(tokens[2]));
+					setImage(tokens[3]);
+					imageFrame = tokens[4];
 					Server.addToAll(this);
 				} else if (tokens[0].equals("N")) {
 					setName(tokens[1]);
@@ -109,7 +112,7 @@ public class Player extends Object implements Runnable {
 					timeCheck = System.currentTimeMillis();
 					Server.addToAll(this);
 				}
-
+				
 			} catch (Exception e) {
 
 				// The player disconnected
@@ -153,6 +156,7 @@ public class Player extends Object implements Runnable {
 						queueMessage(player.getX() + " ");
 						queueMessage(player.getY() + " ");
 						queueMessage(player.getImage() + " ");
+						queueMessage(player.getImageFrame());
 
 						queueMessage(player.getSubreddit().getName() + " ");
 						queueMessage(player.getChatMessage() + " ");
@@ -338,5 +342,15 @@ public class Player extends Object implements Runnable {
 	public void setChatMessage(String chatMessage) {
 		this.chatMessage = chatMessage;
 	}
+
+	public String getImageFrame() {
+		return imageFrame;
+	}
+
+	public void setImageFrame(String imageFrame) {
+		this.imageFrame = imageFrame;
+	}
+	
+	
 
 }
