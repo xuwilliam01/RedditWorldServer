@@ -20,7 +20,7 @@ public class Subreddit implements Runnable{
 	Post[][] signGrid;
 	boolean[][] usedTiles;
 
-	ArrayList<Post> posts = new ArrayList<Post>();
+	public ArrayList<Post> posts = new ArrayList<Post>();
 
 	public Post[][] getSignGrid() {
 		return signGrid;

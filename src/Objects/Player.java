@@ -72,6 +72,8 @@ public class Player extends Object implements Runnable {
 				- Subreddit.TILE_SIZE * 2));
 
 		sendMessage("T " + getX() + " " + getY() + " ");
+		
+		sendMessage("Y " + getID());
 
 		sendNewSigns();
 
@@ -153,15 +155,9 @@ public class Player extends Object implements Runnable {
 					ArrayList<Player> toRemove = new ArrayList<Player>();
 
 					for (Player player : playersToAppend) {
-						queueMessage("P ");
-						queueMessage(player.getID() + " ");
-						queueMessage(player.getX() + " ");
-						queueMessage(player.getY() + " ");
-						queueMessage(player.getImage() + " ");
-						queueMessage(player.getImageFrame() + " ");
-
-						queueMessage(player.getSubreddit().getName() + " ");
-						queueMessage(player.getChatMessage() + " ");
+						queueMessage("P "+player.getID() + " " + player.getX() + " " + player.getY() + " "
+								+ player.getImage() + " " + player.getImageFrame() + " "
+								+ player.getSubreddit().getName() + " " + player.getChatMessage() + " ");
 
 						toRemove.add(player);
 					}
@@ -192,14 +188,8 @@ public class Player extends Object implements Runnable {
 	public void sendNewSigns() {
 
 		int no = 0;
-		for (Post post : subreddit.getPosts()) {
-			queueMessage("S ");
-			queueMessage(post.getID() + " ");
-			queueMessage(post.getX() + " ");
-			queueMessage(post.getY() + " ");
-			queueMessage(post.getUrl() + " ");
-			queueMessage(post.getTitle() + " ");
-			queueMessage(post.getScore() + " ");
+		for (Post post : subreddit.posts) {
+			queueMessage("S " + post.getID() + " " + post.getX() + " " + post.getY() + " " + post.getUrl() + " " + post.getTitle() + " " + post.getScore() + " ");
 			no++;
 		}
 		System.out.println("Number of posts sent " + no);
@@ -271,8 +261,8 @@ public class Player extends Object implements Runnable {
 	public void flushWriter() {
 		if (message.length() > 0) {
 			output.println(message);
-			System.out.println(message);
 			output.flush();
+			System.out.println(message);
 			message = new StringBuilder();
 		}
 	}
