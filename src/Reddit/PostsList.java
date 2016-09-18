@@ -33,7 +33,7 @@ public class PostsList{
     private void generateURL(){
     	if (subreddit.equals("frontpage"))
     	{
-    		url = "https://www.reddit.com/top/";
+    		url = "https://www.reddit.com/top/"+".json"+"?after=AFTER";
     	}
     	else
     	{

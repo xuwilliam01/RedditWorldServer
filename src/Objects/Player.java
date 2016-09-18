@@ -13,13 +13,15 @@ import Server.Subreddit;
 
 public class Player extends Object implements Runnable {
 
+	public final static String NO_MESSAGE_CHAR = "µ";
+
 	Socket socket;
 	BufferedReader input;
 	PrintWriter output;
 	StringBuilder message;
 	String name = "Player";
-	
-	String chatMessage = "µ";
+
+	String chatMessage = NO_MESSAGE_CHAR;
 
 	ArrayList<Player> playersToAppend;
 
@@ -27,6 +29,8 @@ public class Player extends Object implements Runnable {
 
 	ArrayList<Post> postsSent;
 	
+	Player thisPlayer;
+
 	long timeCheck = 0;
 
 	int screenWidth = 2560;
@@ -47,6 +51,7 @@ public class Player extends Object implements Runnable {
 		this.socket = socket;
 		message = new StringBuilder();
 		playersToAppend = new ArrayList<Player>();
+		this.thisPlayer=this;
 
 		this.subreddit = subreddit;
 		postsSent = new ArrayList<Post>();
@@ -68,7 +73,7 @@ public class Player extends Object implements Runnable {
 			try {
 
 				String command = input.readLine();
-				System.out.println(command);
+				System.out.println("Command: " + command);
 				String[] tokens = command.split(" ");
 
 				if (tokens[0].equals("P")) {
@@ -87,12 +92,18 @@ public class Player extends Object implements Runnable {
 						Engine.addSubreddit(subreddit);
 					}
 					postsSent = new ArrayList<Post>();
+				} else if (tokens[0].equals("M")) {
+					chatMessage = tokens[1];
+					timeCheck = System.currentTimeMillis();
+					Server.addToAll(this);
 				}
 
-			} catch (IOException e) {
+			} catch (Exception e) {
 
 				// The player disconnected
 				Server.removePlayer(this);
+
+				System.out.println("Player has disconnected");
 
 				try {
 					input.close();
@@ -105,9 +116,10 @@ public class Player extends Object implements Runnable {
 				break;
 
 			}
+
 		}
 	}
-
+	
 	/**
 	 * Writing thread
 	 * 
@@ -128,10 +140,11 @@ public class Player extends Object implements Runnable {
 						queueMessage(player.getID() + " ");
 						queueMessage(player.getX() + " ");
 						queueMessage(player.getY() + " ");
-						queueMessage(player.getImage());
-						
-						queueMessage(player.getSubreddit().getName());
-						
+						queueMessage(player.getImage() + " ");
+
+						queueMessage(player.getSubreddit().getName() + " ");
+						queueMessage(player.getChatMessage());
+
 						toRemove.add(player);
 					}
 
@@ -140,6 +153,14 @@ public class Player extends Object implements Runnable {
 					}
 
 					flushWriter();
+
+					if (!chatMessage.equals(NO_MESSAGE_CHAR)
+							&& System.currentTimeMillis() - timeCheck > 3000 + chatMessage.length() * 250) {
+
+						chatMessage = NO_MESSAGE_CHAR;
+						Server.addToAll(thisPlayer);
+					}
+
 					Thread.sleep((int) (1000.0 / Engine.TICK_RATE));
 
 				} catch (InterruptedException e) {
@@ -289,7 +310,5 @@ public class Player extends Object implements Runnable {
 	public void setChatMessage(String chatMessage) {
 		this.chatMessage = chatMessage;
 	}
-	
-	
 
 }
