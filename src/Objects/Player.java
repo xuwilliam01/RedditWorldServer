@@ -66,8 +66,10 @@ public class Player extends Object implements Runnable {
 		Server.addToAll(this);
 
 		// Teleport
-		setX((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0));
-		setY((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0));
+		setX((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0 + (int) (Math.random() * Subreddit.TILE_SIZE * 4)
+				- Subreddit.TILE_SIZE * 2));
+		setY((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0 + (int) (Math.random() * Subreddit.TILE_SIZE * 4)
+				- Subreddit.TILE_SIZE * 2));
 
 		sendMessage("T " + getX() + " " + getY() + " ");
 
@@ -112,7 +114,7 @@ public class Player extends Object implements Runnable {
 					timeCheck = System.currentTimeMillis();
 					Server.addToAll(this);
 				}
-				
+
 			} catch (Exception e) {
 
 				// The player disconnected
@@ -268,7 +270,7 @@ public class Player extends Object implements Runnable {
 	public void flushWriter() {
 		if (message.length() > 0) {
 			output.println(message);
-			//System.out.println(message);
+			// System.out.println(message);
 			output.flush();
 			message = new StringBuilder();
 		}
@@ -350,7 +352,5 @@ public class Player extends Object implements Runnable {
 	public void setImageFrame(String imageFrame) {
 		this.imageFrame = imageFrame;
 	}
-	
-	
 
 }

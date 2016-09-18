@@ -13,7 +13,7 @@ import Objects.Object;
 
 public class Server implements Runnable {
 
-	public final static int PORT = 420;
+	public final static int PORT = 4200;
 	ServerSocket server;
 	public static ArrayList<Player> players = new ArrayList<Player>();
 
