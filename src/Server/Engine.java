@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import Objects.Post;
 
-public class Engine {
+public class Engine implements Runnable{
 
 	public static ArrayList<Subreddit> subreddits;
 	public static ArrayList<String> subNames;
@@ -22,7 +22,42 @@ public class Engine {
 		subNames = new ArrayList<String>();
 		frontPage = new Subreddit("frontpage");
 		addSubreddit(frontPage);
+		Thread thread = new Thread(this);
+		thread.start();
+		
+	}
 
+	public static int useNextID() {
+		for (int id = 0; id < objectIDs.length; id++) {
+			if (!objectIDs[id]) {
+				objectIDs[id] = true;
+				return id;
+			}
+		}
+		return -1;
+
+	}
+
+	public static void removeID(int id) {
+		objectIDs[id] = false;
+	}
+
+	public static void addSubreddit(Subreddit subreddit) {
+		subreddits.add(subreddit);
+		subNames.add(subreddit.getName());
+	}
+
+	public static Subreddit getSubreddit(String name) {
+		for (Subreddit sub : subreddits) {
+			if (sub.getName().equals(name)) {
+				return sub;
+			}
+		}
+		return frontPage;
+	}
+
+	@Override
+	public void run() {
 		try {
 			File file = new File("Subreddits");
 			Scanner scan = new Scanner(file);
@@ -98,35 +133,7 @@ public class Engine {
 		}
 		System.out.println("Done");
 		in.close();
-	}
-
-	public static int useNextID() {
-		for (int id = 0; id < objectIDs.length; id++) {
-			if (!objectIDs[id]) {
-				objectIDs[id] = true;
-				return id;
-			}
-		}
-		return -1;
-
-	}
-
-	public static void removeID(int id) {
-		objectIDs[id] = false;
-	}
-
-	public static void addSubreddit(Subreddit subreddit) {
-		subreddits.add(subreddit);
-		subNames.add(subreddit.getName());
-	}
-
-	public static Subreddit getSubreddit(String name) {
-		for (Subreddit sub : subreddits) {
-			if (sub.getName().equals(name)) {
-				return sub;
-			}
-		}
-		return frontPage;
+		
 	}
 
 }
