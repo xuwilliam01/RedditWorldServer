@@ -13,7 +13,7 @@ public class Subreddit implements Runnable{
 	/**
 	 * The radius around the sign (in tiles) where other signs cannot spawn
 	 */
-	public final static int SIGN_SPACE_RADIUS = 5;
+	public final static int SIGN_SPACE_RADIUS = 3;
 	
 	String name;
 
@@ -49,7 +49,8 @@ public class Subreddit implements Runnable{
 	public Subreddit(String name) {
 		this.name = name;
 		Thread thread = new Thread(this);
-		thread.start();
+		thread.run();
+		placeSigns();
 	}
 
 	public void placeSigns() {
@@ -63,9 +64,9 @@ public class Subreddit implements Runnable{
 				row = (int) (Math.random() * SIDE_LENGTH);
 				column = (int) (Math.random() * SIDE_LENGTH);
 				noOfTries++;
-			} while (!usedTiles[row][column] && noOfTries < 10000);
-
-			if (noOfTries >= 10000)
+			} while (usedTiles[row][column] && noOfTries < 10000);
+			
+			if (noOfTries > 10000)
 			{
 				break;
 			}
@@ -74,6 +75,9 @@ public class Subreddit implements Runnable{
 			signGrid[row][column] = sign;
 			sign.setX(column*TILE_SIZE);
 			sign.setY(row*TILE_SIZE);
+			
+//			System.out.println("SignX: " + sign.getX());
+//			System.out.println("SignY: " + sign.getY());
 
 			for (int r = row - SIGN_SPACE_RADIUS; r <= row + SIGN_SPACE_RADIUS; r++) {
 				for (int c = column - SIGN_SPACE_RADIUS; c <= column + SIGN_SPACE_RADIUS; c++) {
@@ -92,11 +96,17 @@ public class Subreddit implements Runnable{
 
 	@Override
 	public void run() {
+		//System.out.println("Runs");
 		signGrid = new Post[SIDE_LENGTH][SIDE_LENGTH];
 		usedTiles = new boolean[SIDE_LENGTH][SIDE_LENGTH];
 		
 		PostsList postList = new PostsList(name);
 		posts = postList.fetch();
+		
+//		for (Post post:posts)
+//		{
+//			System.out.println(post.getTitle());
+//		}
 	}
 
 	public String getName() {

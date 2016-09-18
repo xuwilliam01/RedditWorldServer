@@ -13,14 +13,14 @@ import Objects.Object;
 
 public class Server implements Runnable{
 
-	public final static int port = 4200;
+	public final static int PORT = 4200;
 	ServerSocket server;
 	public static ArrayList<Player> players = new ArrayList<Player>();
 	
 	public Server ()
 	{
 		try {
-			server = new ServerSocket(port);
+			server = new ServerSocket(PORT);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

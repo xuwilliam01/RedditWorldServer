@@ -11,14 +11,13 @@ import java.util.Scanner;
 public class Client implements Runnable {
 
 	public static final String IP = "127.0.0.1";
-	public static final int PORT = 4200;
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 
 		System.out.print("Enter your name: ");
 		String name = scan.nextLine();
-		new Client(name, IP, PORT);
+		new Client(name, IP, Server.Server.PORT);
 
 		scan.close();
 	}

@@ -28,7 +28,7 @@ public class Player extends Object implements Runnable {
 	Subreddit subreddit;
 
 	ArrayList<Post> postsSent;
-	
+
 	Player thisPlayer;
 
 	long timeCheck = 0;
@@ -51,7 +51,7 @@ public class Player extends Object implements Runnable {
 		this.socket = socket;
 		message = new StringBuilder();
 		playersToAppend = new ArrayList<Player>();
-		this.thisPlayer=this;
+		this.thisPlayer = this;
 
 		this.subreddit = subreddit;
 		postsSent = new ArrayList<Post>();
@@ -62,10 +62,16 @@ public class Player extends Object implements Runnable {
 
 		Thread thread = new Thread(new Writer());
 		thread.start();
-		
-
 		Server.addToAll(this);
+
+		// Teleport
+		setX((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0));
+		setY((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0));
+
+		sendMessage("T " + getX() + " " + getY() + " ");
+
 		sendNewSigns();
+
 	}
 
 	@Override
@@ -75,14 +81,13 @@ public class Player extends Object implements Runnable {
 			try {
 
 				String command = input.readLine();
-				System.out.println("Command: " + command);
+				// System.out.println("Command: " + command);
 				String[] tokens = command.split(" ");
 
 				if (tokens[0].equals("P")) {
 					setX(Integer.parseInt(tokens[1]));
 					setY(Integer.parseInt(tokens[2]));
 					Server.addToAll(this);
-					sendNewSigns();
 				} else if (tokens[0].equals("N")) {
 					setName(tokens[1]);
 					Server.addToAll(this);
@@ -95,6 +100,10 @@ public class Player extends Object implements Runnable {
 					}
 					postsSent = new ArrayList<Post>();
 					sendNewSigns();
+					// Teleport
+					setX((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0));
+					setY((int) (Subreddit.SIDE_LENGTH * Subreddit.TILE_SIZE / 2.0));
+					sendMessage("T " + getX() + " " + getY() + " ");
 				} else if (tokens[0].equals("M")) {
 					chatMessage = tokens[1];
 					timeCheck = System.currentTimeMillis();
@@ -122,7 +131,7 @@ public class Player extends Object implements Runnable {
 
 		}
 	}
-	
+
 	/**
 	 * Writing thread
 	 * 
@@ -146,7 +155,7 @@ public class Player extends Object implements Runnable {
 						queueMessage(player.getImage() + " ");
 
 						queueMessage(player.getSubreddit().getName() + " ");
-						queueMessage(player.getChatMessage());
+						queueMessage(player.getChatMessage() + " ");
 
 						toRemove.add(player);
 					}
@@ -174,62 +183,77 @@ public class Player extends Object implements Runnable {
 	}
 
 	public void sendNewSigns() {
-		ArrayList<Post> toRemove = new ArrayList<Post>();
-		for (Post post : postsSent) {
-			if (post.getX() > getX() + screenWidth / 2.0
-					|| post.getX() + Subreddit.TILE_SIZE < getX() - screenWidth / 2.0
-					|| post.getY() > getY() + screenHeight / 2
-					|| post.getY() + Subreddit.TILE_SIZE < getY() - screenHeight) {
-				toRemove.add(post);
-			}
+
+		int no = 0;
+		for (Post post : subreddit.getPosts()) {
+			queueMessage("S ");
+			queueMessage(post.getID() + " ");
+			queueMessage(post.getX() + " ");
+			queueMessage(post.getY() + " ");
+			queueMessage(post.getUrl() + " ");
+			queueMessage(post.getTitle() + " ");
+			queueMessage(post.getScore() + " ");
+			no++;
 		}
+		System.out.println("Number of posts sent " + no);
 
-		for (Post post : toRemove) {
-			postsSent.remove(post);
-		}
-
-		int startRow = (int) (getY() - screenHeight / 2.0 - 64);
-		if (startRow < 0) {
-			startRow = 0;
-		}
-
-		int endRow = (int) (getY() + screenHeight / 2.0 + 64);
-		if (endRow >= Subreddit.SIDE_LENGTH) {
-			endRow = Subreddit.SIDE_LENGTH - 1;
-		}
-
-		int startColumn = (int) (getX() - screenWidth / 2.0 - 64);
-		if (startColumn < 0) {
-			startColumn = 0;
-		}
-
-		int endColumn = (int) (getX() + screenWidth / 2.0 + 64);
-		if (endColumn >= Subreddit.SIDE_LENGTH) {
-			endColumn = Subreddit.SIDE_LENGTH - 1;
-		}
-
-		for (int row = startRow; row <= endRow; row++) {
-			for (int column = startColumn; column <= endColumn; column++) {
-				Post post;
-				if ((post = subreddit.getSignGrid()[row][column]) != null && !postsSent.contains(post)) {
-					postsSent.add(post);
-
-					queueMessage("S ");
-					queueMessage(post.getID() + " ");
-					queueMessage(post.getX() + " ");
-					queueMessage(post.getY() + " ");
-					queueMessage(post.getUrl() + " ");
-					queueMessage(post.getTitle() + " ");
-					queueMessage(post.getScore() + " ");
-				}
-
-			}
-		}
+		// ArrayList<Post> toRemove = new ArrayList<Post>();
+		// for (Post post : postsSent) {
+		// if (post.getX() > getX() + screenWidth / 2.0
+		// || post.getX() + Subreddit.TILE_SIZE < getX() - screenWidth / 2.0
+		// || post.getY() > getY() + screenHeight / 2
+		// || post.getY() + Subreddit.TILE_SIZE < getY() - screenHeight) {
+		// toRemove.add(post);
+		// }
+		// }
+		//
+		// for (Post post : toRemove) {
+		// postsSent.remove(post);
+		// }
+		//
+		// int startRow = (int) (getY() - 10000 - screenHeight / 2.0 - 64);
+		// if (startRow < 0) {
+		// startRow = 0;
+		// }
+		//
+		// int endRow = (int) (getY() + 10000 + screenHeight / 2.0 + 64);
+		// if (endRow >= Subreddit.SIDE_LENGTH) {
+		// endRow = Subreddit.SIDE_LENGTH - 1;
+		// }
+		//
+		// int startColumn = (int) (getX() -10000- screenWidth / 2.0 - 64);
+		// if (startColumn < 0) {
+		// startColumn = 0;
+		// }
+		//
+		// int endColumn = (int) (getX() + 10000+screenWidth / 2.0 + 64);
+		// if (endColumn >= Subreddit.SIDE_LENGTH) {
+		// endColumn = Subreddit.SIDE_LENGTH - 1;
+		// }
+		//
+		// for (int row = startRow; row <= endRow; row++) {
+		// for (int column = startColumn; column <= endColumn; column++) {
+		// Post post;
+		// if ((post = subreddit.getSignGrid()[row][column]) != null &&
+		// !postsSent.contains(post)) {
+		// postsSent.add(post);
+		//
+		// queueMessage("S ");
+		// queueMessage(post.getID() + " ");
+		// queueMessage(post.getX() + " ");
+		// queueMessage(post.getY() + " ");
+		// queueMessage(post.getUrl() + " ");
+		// queueMessage(post.getTitle() + " ");
+		// queueMessage(post.getScore() + " ");
+		// }
+		//
+		// }
+		// }
 
 	}
 
-	public void sendMessage(String message) {
-		output.println(message);
+	public void sendMessage(String text) {
+		output.println(text);
 		output.flush();
 	}
 
@@ -240,6 +264,7 @@ public class Player extends Object implements Runnable {
 	public void flushWriter() {
 		if (message.length() > 0) {
 			output.println(message);
+			//System.out.println(message);
 			output.flush();
 			message = new StringBuilder();
 		}

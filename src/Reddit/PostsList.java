@@ -67,7 +67,10 @@ public class PostsList{
                 for (int i = 0; i < children.length(); i++) {
                     JSONObject current = children.getJSONObject(i)
                             .getJSONObject("data");
-                    Post post = new Post(current.optString("title"), current.optString("url"), current.optInt("score"));
+                    String title = current.optString("title");
+                    title = title.replace(' ', '_');
+                    
+                    Post post = new Post(title, current.optString("url"), current.optInt("score"));
 
                     if (post.getTitle() != null)
                         list.add(post);
