@@ -18,12 +18,13 @@ public class PostsList{
             "https://www.reddit.com/r/SUBREDDIT_NAME/top/"
                     +".json"
                     +"?after=AFTER";
-    private final int NUM_POSTS = 350;
-    private final int POSTS_PER_PAGE = 25;
+    private int NUM_POSTS = 200;
+    private int POSTS_PER_PAGE = 25;
 
     String subreddit;
     String url;
     String after;
+    int end = 0;
 
     public PostsList(String sr){
         subreddit=sr;
@@ -31,14 +32,21 @@ public class PostsList{
     }
 
     private void generateURL(){
+    	if(end == 1){
+    		return;
+    	}
     	if (subreddit.equals("frontpage"))
     	{
-    		url = "https://www.reddit.com/top/"+".json"+"?after=AFTER";
+    		String TEMPLATE = "https://www.reddit.com/top/"
+                    +".json"
+                    +"?after=AFTER";
+    		//url = "https://www.reddit.com/top/"+".json"+"?after=AFTER";
+    		url=TEMPLATE.replace("AFTER", after);
     	}
     	else
     	{
-        url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
-        url=url.replace("AFTER", after);
+    		url=URL_TEMPLATE.replace("SUBREDDIT_NAME", subreddit);
+    		url=url.replace("AFTER", after);
     	}
     }
 
@@ -54,8 +62,9 @@ public class PostsList{
 
         for(int n = 0; n<NUM_POSTS/POSTS_PER_PAGE;++n) {
             generateURL();
+            System.out.println(url);
+            
             String raw = RemoteData.readContents(url);
-
             try {
                 JSONObject data = new JSONObject(raw)
                         .getJSONObject("data");
@@ -63,7 +72,6 @@ public class PostsList{
 
                 //Using this property we can fetch the next set of
                 //posts from the same subreddit
-
                 for (int i = 0; i < children.length(); i++) {
                     JSONObject current = children.getJSONObject(i)
                             .getJSONObject("data");
@@ -75,8 +83,17 @@ public class PostsList{
                     if (post.getTitle() != null)
                         list.add(post);
                 }
+                
+                if(data.getString("after").equals("null")){
+                }else{
+                	after = data.getString("after");
+                }
             } catch (Exception e) {
                 System.out.printf("Subreddit does not exist.");
+                url = url + "/";
+                n--;
+                end = 1;
+                
             }
         }
         return list;

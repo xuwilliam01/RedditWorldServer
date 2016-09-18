@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import Server.Engine;
 import Server.Server;
@@ -185,6 +186,9 @@ public class Player extends Object implements Runnable {
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+				} catch (ConcurrentModificationException e)
+				{
+					
 				}
 			}
 		}

@@ -60,7 +60,7 @@ public class RemoteData {
     }
     
     public static void main(String[] args){
-    	PostsList postlist = new PostsList("uwaterloo");
+    	PostsList postlist = new PostsList("askreddit");
     	ArrayList<Post> posts = postlist.fetch();
     	
     	int i=0;

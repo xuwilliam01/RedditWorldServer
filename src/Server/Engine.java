@@ -75,6 +75,7 @@ public class Engine implements Runnable{
 				int noOfPosts = fileScan.nextInt();
 
 				for (int no = 0; no < noOfPosts; no++) {
+
 					String title = fileScan.nextLine();
 					String url = fileScan.nextLine();
 					int score = Integer.parseInt(fileScan.nextLine());
