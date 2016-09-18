@@ -1,8 +1,14 @@
 package Server;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class Engine{
+import Objects.Post;
+
+public class Engine {
 
 	public static ArrayList<Subreddit> subreddits;
 	public static ArrayList<String> subNames;
@@ -19,6 +25,84 @@ public class Engine{
 		subNames = new ArrayList<String>();
 		frontPage = new Subreddit("frontpage");
 		addSubreddit(frontPage);
+		
+		
+		try {
+			File file = new File ("Subreddits");
+			Scanner scan = new Scanner (file);
+			Scanner fileScan;
+			
+			while (scan.hasNext())
+			{
+				String name = scan.nextLine();
+				fileScan = new Scanner(new File(name));
+				
+				ArrayList<Post>posts = new ArrayList<Post>();
+				
+				int noOfPosts = fileScan.nextInt();
+				
+				for (int no = 0; no < noOfPosts; no++)
+				{
+					String title = fileScan.nextLine();
+					String url = fileScan.nextLine();
+					int score = fileScan.nextInt();
+					posts.add(new Post(title,url,score));
+				}
+				
+				Subreddit subreddit = new Subreddit(name);
+				subreddit.setPosts(posts);
+				
+				Engine.addSubreddit(subreddit);
+				fileScan.close();
+			}
+			scan.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Got here");
+		Scanner in = new Scanner(System.in);
+		if (in.nextLine().equals("1"))
+		{
+		
+		System.out.println("Saving subs");
+		
+		try {
+			PrintWriter write = new PrintWriter(new File("Subreddits"));
+			
+			for (String name:Engine.subNames)
+			{
+				write.println(name);
+				
+				
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (Subreddit sub : Engine.subreddits)
+		{
+			try {
+				PrintWriter subWriter;
+				subWriter = new PrintWriter(new File(sub.getName()));
+				subWriter.println(sub.getPosts().size());
+				
+				for (Post post:sub.getPosts())
+				{
+					subWriter.println(post.getTitle());
+					subWriter.println(post.getUrl());
+					subWriter.println(post.getScore());
+				}
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		}
+		in.close();
 	}
 
 	

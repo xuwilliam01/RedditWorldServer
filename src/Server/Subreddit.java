@@ -116,6 +116,8 @@ public class Subreddit implements Runnable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
 
 	
 }

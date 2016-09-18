@@ -52,7 +52,7 @@ public class PostsList{
     public ArrayList<Post> fetch(){
         ArrayList<Post> list = new ArrayList<Post>();
 
-        for(int n = 0; n<=NUM_POSTS/POSTS_PER_PAGE;++n) {
+        for(int n = 0; n<NUM_POSTS/POSTS_PER_PAGE;++n) {
             generateURL();
             String raw = RemoteData.readContents(url);
 
