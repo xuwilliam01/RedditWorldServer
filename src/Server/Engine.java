@@ -13,102 +13,94 @@ public class Engine {
 	public static ArrayList<Subreddit> subreddits;
 	public static ArrayList<String> subNames;
 	public static Subreddit frontPage;
-	
-	static boolean [] objectIDs = new boolean[100000];
+
+	static boolean[] objectIDs = new boolean[100000];
 	public final static int TICK_RATE = 60;
-	
-	
-	
-	public Engine()
-	{
+
+	public Engine() {
 		subreddits = new ArrayList<Subreddit>();
 		subNames = new ArrayList<String>();
 		frontPage = new Subreddit("frontpage");
 		addSubreddit(frontPage);
-		
-		
+
 		try {
-			File file = new File ("Subreddits");
-			Scanner scan = new Scanner (file);
+			File file = new File("Subreddits");
+			Scanner scan = new Scanner(file);
 			Scanner fileScan;
-			
-			while (scan.hasNext())
-			{
+
+			while (scan.hasNext()) {
 				String name = scan.nextLine();
+				if (Engine.subNames.contains(name)) {
+					continue;
+				}
 				fileScan = new Scanner(new File(name));
-				
-				ArrayList<Post>posts = new ArrayList<Post>();
-				
+
+				ArrayList<Post> posts = new ArrayList<Post>();
+
 				int noOfPosts = fileScan.nextInt();
-				
-				for (int no = 0; no < noOfPosts; no++)
-				{
+
+				for (int no = 0; no < noOfPosts; no++) {
 					String title = fileScan.nextLine();
 					String url = fileScan.nextLine();
 					int score = fileScan.nextInt();
-					posts.add(new Post(title,url,score));
+					posts.add(new Post(title, url, score));
 				}
-				
+
 				Subreddit subreddit = new Subreddit(name);
 				subreddit.setPosts(posts);
-				
+
 				Engine.addSubreddit(subreddit);
 				fileScan.close();
 			}
 			scan.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		System.out.println("Got here");
 		Scanner in = new Scanner(System.in);
-		if (in.nextLine().equals("1"))
-		{
-		
-		System.out.println("Saving subs");
-		
-		try {
-			PrintWriter write = new PrintWriter(new File("Subreddits"));
-			
-			for (String name:Engine.subNames)
-			{
-				write.println(name);
-				
-				
-			}
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		for (Subreddit sub : Engine.subreddits)
-		{
+		if (in.nextLine().equals("1")) {
+
+			System.out.println("Saving subs");
+
 			try {
-				PrintWriter subWriter;
-				subWriter = new PrintWriter(new File(sub.getName()));
-				subWriter.println(sub.getPosts().size());
-				
-				for (Post post:sub.getPosts())
-				{
-					subWriter.println(post.getTitle());
-					subWriter.println(post.getUrl());
-					subWriter.println(post.getScore());
+				PrintWriter write = new PrintWriter(new File("Subreddits"));
+
+				for (String name : Engine.subNames) {
+					write.println(name);
+
 				}
-				
+				write.close();
+
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			for (Subreddit sub : Engine.subreddits) {
+				try {
+					PrintWriter subWriter;
+					subWriter = new PrintWriter(new File(sub.getName()));
+					subWriter.println(sub.getPosts().size());
+
+					for (Post post : sub.getPosts()) {
+						subWriter.println(post.getTitle());
+						subWriter.println(post.getUrl());
+						subWriter.println(post.getScore());
+					}
+					subWriter.close();
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
-		}
+		System.out.println("Done");
 		in.close();
 	}
 
-	
-	
-	public static int useNextID()
-	{
+	public static int useNextID() {
 		for (int id = 0; id < objectIDs.length; id++) {
 			if (!objectIDs[id]) {
 				objectIDs[id] = true;
@@ -116,26 +108,21 @@ public class Engine {
 			}
 		}
 		return -1;
-		
+
 	}
-	
-	public static void removeID(int id)
-	{
-		objectIDs[id]=false;
+
+	public static void removeID(int id) {
+		objectIDs[id] = false;
 	}
-	
-	public static void addSubreddit(Subreddit subreddit)
-	{
+
+	public static void addSubreddit(Subreddit subreddit) {
 		subreddits.add(subreddit);
 		subNames.add(subreddit.getName());
 	}
-	
-	public static Subreddit getSubreddit(String name)
-	{
-		for (Subreddit sub:subreddits)
-		{
-			if (sub.getName().equals(name))
-			{
+
+	public static Subreddit getSubreddit(String name) {
+		for (Subreddit sub : subreddits) {
+			if (sub.getName().equals(name)) {
 				return sub;
 			}
 		}

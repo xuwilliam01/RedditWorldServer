@@ -58,4 +58,15 @@ public class RemoteData {
             return null;
         }
     }
+    
+    public static void main(String[] args){
+    	PostsList postlist = new PostsList("uwaterloo");
+    	ArrayList<Post> posts = postlist.fetch();
+    	
+    	int i=0;
+    	for(Post p: posts){
+    		System.out.println(i++);
+    		System.out.println(p.getUrl());
+    	}
+    }
 }

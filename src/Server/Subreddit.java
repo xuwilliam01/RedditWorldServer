@@ -103,6 +103,12 @@ public class Subreddit implements Runnable{
 		PostsList postList = new PostsList(name);
 		posts = postList.fetch();
 		
+    	int i=0;
+    	for(Post p: posts){
+    		System.out.println(i++);
+    		System.out.println(p.getUrl());
+    	}
+		
 //		for (Post post:posts)
 //		{
 //			System.out.println(post.getTitle());
