@@ -60,10 +60,8 @@ public class Server implements Runnable {
 
 	public static void addToAll(Player player) {
 		for (Player no : players) {
-				if (!no.getPlayersToAppend().contains(player))
-				{
+				
 				no.addPlayerToList(player);
-				}
 			
 		}
 	}
